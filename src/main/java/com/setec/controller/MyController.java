@@ -1,6 +1,7 @@
 package com.setec.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,69 +15,92 @@ import com.setec.telegrambot.MyTelegramBot;
 @Controller
 public class MyController {
 
-	@GetMapping({ "/", "/home" })
-	public String home(Model mod) {
-		Booked booked = new Booked(1, "chouengsombo", "010 9999 88", "chouengsombo@gmail.com", "09/12/2025", "6:00 PM",
-				10);
-		mod.addAttribute("booked", booked);
-		return "index";
-	}
+    @Autowired
+    private BookedRepo bookedRepo;
 
-	@GetMapping("/about")
-	public String about() {
-		return "about";
-	}
+    @Autowired
+    private MyTelegramBot bot;
 
-	@GetMapping("/service")
-	public String service() {
-		return "service";
-	}
+    // Default booking values, customizable via environment variables
+    @Value("${booking.default.name:chouengsombo}")
+    private String defaultName;
 
-	@GetMapping("/menu")
-	public String menu() {
-		return "menu";
+    @Value("${booking.default.phone:010 0000 0000}")
+    private String defaultPhone;
 
-	}
+    @Value("${booking.default.email:chouengsombo@gmail.com}")
+    private String defaultEmail;
 
-	@GetMapping("/reservation")
-	public String reservation(Model mod) {
-		Booked booked = new Booked(1, "chouengsombo", "010 3333 44", "chouengsombo@gmail.com", "09/11/2025", "8:30 PM",
-				2);
-		mod.addAttribute("booked", booked);
-		return "reservation";
-	}
+    @Value("${booking.default.date:YYYY/MM/DD}")
+    private String defaultDate;
 
-	@GetMapping("/testimonial")
-	public String testimonial() {
+    @Value("${booking.default.time:HH:MM AM/PM}")
+    private String defaultTime;
 
-		return "testimonial";
-	}
+    @Value("${booking.default.persons:1}")
+    private int defaultPersons;
 
-	@GetMapping("/contact")
-	public String contact() {
+    // Helper method to create a default Booked object
+    private Booked createDefaultBooking() {
+        return new Booked(1, defaultName, defaultPhone, defaultEmail, defaultDate, defaultTime, defaultPersons);
+    }
 
-		return "contact";
-	}
+    @GetMapping({"/", "/home"})
+    public String home(Model model) {
+        model.addAttribute("booked", createDefaultBooking());
+        return "index";
+    }
 
-	@Autowired
-	private BookedRepo bookedRepo;
-	@Autowired
-	private MyTelegramBot bot;
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 
-	@PostMapping("/success")
-	public String success(@ModelAttribute Booked booked) {
-		bookedRepo.save(booked);
-		bot.message(""
-				+ "🆔 ID       : " + booked.getId() + "\n" 
-				+ "👤 Name     : " + booked.getName() + "\n"
-				+ "📧 Email    : " + booked.getEmail() + "\n" 
-				+ "📞 Phone    : " + booked.getPhoneNumber() + "\n"
-				+ "📅 Date     : " + booked.getDate() + "\n" 
-				+ "⏰ Time     : " + booked.getTime() + "\n"
-				+ "👥 Persons  : " + booked.getPerson()
+    @GetMapping("/service")
+    public String service() {
+        return "service";
+    }
 
-		);
-		return "success";
-	}
+    @GetMapping("/menu")
+    public String menu() {
+        return "menu";
+    }
 
+    @GetMapping("/reservation")
+    public String reservation(Model model) {
+        // Customize reservation page booking (example)
+        Booked reservationBooking = createDefaultBooking();
+
+        model.addAttribute("booked", reservationBooking);
+        return "reservation";
+    }
+
+    @GetMapping("/testimonial")
+    public String testimonial() {
+        return "testimonial";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
+
+    @PostMapping("/success")
+    public String success(@ModelAttribute Booked booked) {
+        // Save booking to database
+        bookedRepo.save(booked);
+
+        // Send Telegram message
+        bot.message(
+            "🆔 ID       : " + booked.getId() + "\n" +
+            "👤 Name     : " + booked.getName() + "\n" +
+            "📧 Email    : " + booked.getEmail() + "\n" +
+            "📞 Phone    : " + booked.getPhoneNumber() + "\n" +
+            "📅 Date     : " + booked.getDate() + "\n" +
+            "⏰ Time     : " + booked.getTime() + "\n" +
+            "👥 Persons  : " + booked.getPerson()
+        );
+
+        return "success";
+    }
 }
