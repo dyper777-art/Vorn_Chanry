@@ -22,22 +22,22 @@ public class MyController {
     private MyTelegramBot bot;
 
     // Default booking values, customizable via environment variables
-    @Value("${booking.default.name:chouengsombo}")
+    @Value("${booking.default.name}")
     private String defaultName;
 
-    @Value("${booking.default.phone:010 0000 0000}")
+    @Value("${booking.default.phone}")
     private String defaultPhone;
 
-    @Value("${booking.default.email:chouengsombo@gmail.com}")
+    @Value("${booking.default.email")
     private String defaultEmail;
 
-    @Value("${booking.default.date:YYYY/MM/DD}")
+    @Value("${booking.default.date")
     private String defaultDate;
 
-    @Value("${booking.default.time:HH:MM AM/PM}")
+    @Value("${booking.default.time}")
     private String defaultTime;
 
-    @Value("${booking.default.persons:1}")
+    @Value("${booking.default.persons}")
     private int defaultPersons;
 
     // Helper method to create a default Booked object
