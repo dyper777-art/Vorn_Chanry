@@ -283,6 +283,19 @@
 
 		<!-- Template Javascript -->
 		<script src="js/main.js"></script>
+		
+		<script>
+		$(function () {
+		    $('#date').datetimepicker({
+		        format: 'DD/MM/YYYY'  // matches your default date format
+		    });
+		
+		    $('#time').datetimepicker({
+		        format: 'h:mm A'      // matches your default time format
+		    });
+		});
+		</script>
+		
 
 	</div>
 	<!-- Script End -->
