@@ -28,10 +28,10 @@ public class MyController {
     @Value("${booking.default.phone}")
     private String defaultPhone;
 
-    @Value("${booking.default.email")
+    @Value("${booking.default.email}")
     private String defaultEmail;
 
-    @Value("${booking.default.date")
+    @Value("${booking.default.date}")
     private String defaultDate;
 
     @Value("${booking.default.time}")
