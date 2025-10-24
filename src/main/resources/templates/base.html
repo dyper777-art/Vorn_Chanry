@@ -142,7 +142,7 @@
 									<div class="date" id="date" data-target-input="nearest">
 										<input th:field="*{date}" type="text"
 											class="form-control bg-transparent border-primary p-4 datetimepicker-input"
-											placeholder="Date" data-target="#date"
+											placeholder="*{date}" data-target="#date"
 											data-toggle="datetimepicker" />
 									</div>
 								</div>
@@ -283,18 +283,6 @@
 
 		<!-- Template Javascript -->
 		<script src="js/main.js"></script>
-		
-		<script>
-		$(function () {
-		    $('#date').datetimepicker({
-		        format: 'DD/MM/YYYY'  // matches your default date format
-		    });
-		
-		    $('#time').datetimepicker({
-		        format: 'h:mm A'      // matches your default time format
-		    });
-		});
-		</script>
 		
 
 	</div>
