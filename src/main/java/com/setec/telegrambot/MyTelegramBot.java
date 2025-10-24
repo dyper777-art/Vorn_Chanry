@@ -13,10 +13,11 @@ import lombok.Data;
 @Data
 public class MyTelegramBot {
 
-	@Value("${token}")
+	@Value("${telegram.bot.token}")
 	private String token;
-	@Value("${chat_id}")
-	private long chat_id;
+
+	@Value("${telegram.chat.id}")
+	private String chat_id;
 	
 	private TelegramBot bot;
 	
