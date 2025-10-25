@@ -5,49 +5,87 @@
 
 <head th:replace="~{base::head}">
     <style>
-        /* Custom styles for the invoice */
+        /* General Styling */
         body {
-            background-color: #f4f6f9;
+            background-color: #f9fafc;
+            font-family: 'Poppins', sans-serif;
         }
 
         .invoice-card {
-            border-radius: 12px;
             border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            background: #fff;
         }
 
         .invoice-header {
-            background-color: #a78928;
-            color: white;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+            background: linear-gradient(135deg, #a78928, #c8b45e);
+            color: #fff;
             text-align: center;
+            padding: 1.8rem 1rem;
+        }
+
+        .invoice-header h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .invoice-body {
-            padding: 2rem;
-        }
-
-        .invoice-body p {
-            font-size: 0.95rem;
+            padding: 2.5rem;
         }
 
         .invoice-title {
             font-weight: 600;
-            font-size: 1.3rem;
-            color: #a79428;
+            font-size: 1.6rem;
+            color: #a78928;
+        }
+
+        .lead {
+            color: #666;
+        }
+
+        .invoice-section p {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .invoice-section strong {
+            color: #555;
+        }
+
+        hr {
+            border-top: 1px solid #eee;
+            margin: 1.5rem 0;
         }
 
         .print-btn {
             border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            border: 2px solid #a78928;
+            color: #a78928;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background-color: #a78928;
+            color: #fff;
         }
 
         .invoice-footer {
-            font-size: 0.85rem;
-            color: #4e4e4e;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 2rem;
         }
 
-        .invoice-section {
-            margin-bottom: 1.5rem;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .invoice-body {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -56,24 +94,24 @@
 <div th:replace="~{base::navbar}"></div>
 
 <!-- Page Header -->
-<div th:replace="~{base::header(text='Success')}"></div>
+<div th:replace="~{base::header(text='Booking Confirmed')}"></div>
 
 <!-- Success / Invoice Section -->
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <div class="text-center mb-4">
-                <h2 class="invoice-title">Booking Successful</h2>
-                <p class="lead">Thank you for your booking! Your invoice details are below.</p>
+            <div class="text-center mb-5">
+                <h2 class="invoice-title">Booking Successful!</h2>
+                <p class="lead">Thank you for your booking. Below are your invoice details.</p>
             </div>
 
-            <div class="card invoice-card shadow-sm">
-                <div class="card-header invoice-header">
-                    <h4 class="mb-0">Invoice</h4>
+            <div class="invoice-card">
+                <div class="invoice-header">
+                    <h4 class="mb-0">Invoice Summary</h4>
                 </div>
 
-                <div class="card-body invoice-body">
+                <div class="invoice-body">
                     <div class="row invoice-section">
                         <div class="col-md-6">
                             <p><strong>Booking ID:</strong> <span th:text="${booked.id}">BK123456</span></p>
@@ -82,24 +120,25 @@
                         </div>
                         <div class="col-md-6">
                             <p><strong>Phone:</strong> <span th:text="${booked.phoneNumber}">+1 234 567 890</span></p>
-                            <p><strong>Booking Date:</strong> <span th:text="${booked.date}">2025-09-11</span></p>
-                            <p><strong>Booking Time:</strong> <span th:text="${booked.time}">10:00 AM</span></p>
+                            <p><strong>Date:</strong> <span th:text="${booked.date}">2025-09-11</span></p>
+                            <p><strong>Time:</strong> <span th:text="${booked.time}">10:00 AM</span></p>
                         </div>
                     </div>
 
                     <hr>
 
-                    <div class="text-center mt-4">
-                        <button class="btn btn-outline-warning print-btn" onclick="window.print()">
+                    <div class="text-center">
+                        <button class="btn print-btn" onclick="window.print()">
                             <i class="bi bi-printer"></i> Print Invoice
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="text-center invoice-footer mt-4">
-                <p>If you have any questions, please contact our support team.</p>
+            <div class="text-center invoice-footer">
+                <p>If you have any questions, please contact our <a href="#" class="text-decoration-none" style="color: #a78928;">support team</a>.</p>
             </div>
+
         </div>
     </div>
 </div>
